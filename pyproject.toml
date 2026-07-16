@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tcg-linker"
+version = "0.1.0"
+description = "商品管理ID紐づけ 自動化ツール（提案/実行）"
+requires-python = ">=3.9"
+dependencies = [
+    "playwright>=1.44",
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+    # ローカル認識（Claude非依存）
+    "paddleocr>=2.7",
+    "paddlepaddle>=2.6",
+    "opencv-python-headless>=4.8",
+    "imagehash>=4.3",
+    "Pillow>=10.0",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+claude = ["anthropic>=0.40"]   # recognition_backend=claude を使う場合のみ
+
+[project.scripts]
+tcg-linker = "tcg_linker.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

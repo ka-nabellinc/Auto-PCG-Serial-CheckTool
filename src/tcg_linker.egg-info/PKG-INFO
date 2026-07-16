@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: tcg-linker
+Version: 0.1.0
+Summary: 商品管理ID紐づけ 自動化ツール（提案/実行）
+Requires-Python: >=3.9
+Requires-Dist: playwright>=1.44
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: jinja2>=3.1
+Requires-Dist: paddleocr>=2.7
+Requires-Dist: paddlepaddle>=2.6
+Requires-Dist: opencv-python-headless>=4.8
+Requires-Dist: imagehash>=4.3
+Requires-Dist: Pillow>=10.0
+Requires-Dist: numpy>=1.24
+Provides-Extra: claude
+Requires-Dist: anthropic>=0.40; extra == "claude"

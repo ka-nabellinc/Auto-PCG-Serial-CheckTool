@@ -1,0 +1,40 @@
+# tcg-linker 設定ファイル（このファイルを config.yaml にコピーして使う）
+
+# 管理画面のベースURL
+admin_base_url: "https://admin.tcg-platform.com"
+
+# 撮影画像を格納しているS3バケットのリスト用URL（認証不要のGET）
+#   {reg_id} は実行時に置換される
+s3_list_url: "https://tcg-platform-inventory-unit-image-prod.s3.ap-northeast-1.amazonaws.com/?list-type=2&prefix=registrations/{reg_id}/"
+# 撮影画像の配信URL（{reg_id}, {key} を置換）
+image_base_url: "https://inventory-unit-images.ka-nabell.com/{key}"
+
+# 既存Chromeへのデバッグ接続先（Chromeを --remote-debugging-port=9222 で起動）
+cdp_url: "http://localhost:9222"
+
+# 認識バックエンド（既定は完全ローカル・Claude非依存）
+recognition_backend: "local"    # "local"（OCR・外部送信なし・無料） / "claude"（Claude API）
+ocr_engine: "paddleocr"         # local時のOCR: "paddleocr"（日本語対応・pip導入） / "tesseract"
+
+# ↓ recognition_backend: "claude" のときだけ使用（既定localでは不要）
+anthropic_api_key_env: "ANTHROPIC_API_KEY"
+vision_model: "claude-sonnet-5"
+
+# 判定パラメータ
+matching:
+  require_number_match: true      # 収録番号(ソート)一致を必須にする（誤紐づけ防止の要）
+  require_illustration_match: true # イラスト照合も必須にする
+  illustration_min_confidence: 0.7 # イラスト一致とみなす最小信頼度(0-1)
+
+# 検索の多段フォールバック（順に試し、候補が得られた段で採用）
+search_fallbacks:
+  - "full_name"        # 読み取ったカード名そのまま
+  - "strip_region"     # 先頭の「アローラ」「ガラル」「ヒスイ」等を除去
+  - "last_token"       # 空白区切りの最後のトークン（種名/特徴語）
+
+# 出力先
+output_dir: "./out"
+
+# スキップ（手動対応が必要なカード）の通知
+#   skips_{reg}.csv を必ず出力し、スキップが1件以上あれば実行後にポップアップで通知する
+notify_popup_on_skip: true
